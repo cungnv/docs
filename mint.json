@@ -26,6 +26,9 @@
       "url": "api-reference"
     }
   ],
+  "primaryTab": {
+    "name": "Home"
+  },
 
   "navigation": [
     {
