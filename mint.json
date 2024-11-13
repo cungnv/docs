@@ -5,7 +5,7 @@
     "dark": "/logo/freshdata-logo.png",
     "light": "/logo/freshdata-logo.png"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/logo/freshdata-logo.png",
   "colors": {
     "primary": "#0D9373",
     "light": "#07C983",
