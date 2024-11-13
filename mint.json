@@ -15,9 +15,7 @@
       "to": "#07C983"
     }
   },
-  "nagivation": {
-    "API Reference": "/api-reference"
-  },
+  "nagivation": [],
   "topbarCtaButton": {
     "name": "Try it now",
     "url": "https://rapidapi.com/freshdata-freshdata-default/api/fresh-linkedin-profile-data"
