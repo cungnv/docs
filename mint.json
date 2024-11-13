@@ -26,8 +26,9 @@
       "url": "api-reference"
     }
   ],
+  
   "primaryTab": {
-    "name": "Home"
+    "name": "Tutorials"
   },
 
   "navigation": [
