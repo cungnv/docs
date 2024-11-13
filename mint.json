@@ -22,7 +22,7 @@
   },
   "tabs": [
     {
-      "name": "API endpoints",
+      "name": "API Reference",
       "url": "api-reference"
     }
   ],
@@ -33,7 +33,7 @@
 
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Popular Use Cases",
       "pages": [
         "introduction",
         "quickstart",
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "group": "Essentials",
+      "group": "How To Wiki",
       "pages": [
         "essentials/markdown",
         "essentials/code",
@@ -58,7 +58,7 @@
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Endpoint Demo",
       "pages": [
         "api-reference/endpoint/get",
         "api-reference/endpoint/create",
