@@ -15,7 +15,7 @@
       "to": "#07C983"
     }
   },
-  "nagivation": [],
+  
   "topbarCtaButton": {
     "name": "Try it now",
     "url": "https://rapidapi.com/freshdata-freshdata-default/api/fresh-linkedin-profile-data"
@@ -24,6 +24,42 @@
     {
       "name": "API endpoints",
       "url": "api-reference"
+    }
+  ],
+
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "development"
+      ]
+    },
+    {
+      "group": "Essentials",
+      "pages": [
+        "essentials/markdown",
+        "essentials/code",
+        "essentials/images",
+        "essentials/settings",
+        "essentials/navigation",
+        "essentials/reusable-snippets"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/introduction"
+      ]
+    },
+    {
+      "group": "Endpoint Examples",
+      "pages": [
+        "api-reference/endpoint/get",
+        "api-reference/endpoint/create",
+        "api-reference/endpoint/delete"
+      ]
     }
   ],
  
