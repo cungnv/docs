@@ -16,14 +16,10 @@
     }
   },
   "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
-    }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Try it now",
+    "url": "https://rapidapi.com/freshdata-freshdata-default/api/fresh-linkedin-profile-data"
   },
   "tabs": [
     {
