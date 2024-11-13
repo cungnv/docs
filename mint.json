@@ -16,7 +16,7 @@
     }
   },
   "nagivation": {
-    "API Reference": "/"
+    "API Reference": "/api-reference"
   },
   "topbarCtaButton": {
     "name": "Try it now",
