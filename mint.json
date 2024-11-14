@@ -35,9 +35,10 @@
     {
       "group": "Popular Use Cases",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "search-employees-using-sales-navigator",
+        "search-companies-using-sales-navigator",
+        "enrich-a-lead-list-with-linkedin-data",
+        "fetch-all-posts-of-a-person-profile"
       ]
     },
     {
