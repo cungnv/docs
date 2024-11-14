@@ -35,7 +35,7 @@
     {
       "group": "Popular Use Cases",
       "pages": [
-        "search-employees-using-sales-navigator",
+        "tutorials/search-employees-using-sales-navigator",
         "search-companies-using-sales-navigator",
         "enrich-a-lead-list-with-linkedin-data",
         "fetch-all-posts-of-a-person-profile"
