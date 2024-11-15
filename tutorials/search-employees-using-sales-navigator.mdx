@@ -1,4 +1,211 @@
+
+# How to Streamline Employee Searches Using LinkedIn Sales Navigator with Our API
+
+In this guide, we will walk you through using our API to automate searches on LinkedIn Sales Navigator, focusing on **all fields explicitly mentioned in the `Search Employees.txt` file**. These fields will be manually written to a CSV file for better clarity and control.
+
 ---
-title: "Search employees using sales navigator"
-description: "Search employees at scale using LinkedIn sales navigator without connecting your own accounts."
+
+## Why Use Our API?
+
+1. **No LinkedIn Account Required**  
+   Save time and maintain privacy without needing to share or connect your LinkedIn credentials.
+
+2. **Fully Automated Search Process**  
+   Streamline searches, monitor progress, and retrieve results—all without manual effort.
+
+3. **Dynamic Data Handling**  
+   Capture all available fields for each profile dynamically into a structured CSV format, ensuring no detail is missed.
+
+4. **Scalable for Any Business Size**  
+   Perfect for recruitment, marketing, or business analysis, whether handling a single search or thousands.
+
 ---
+
+## Available Fields in Search Results
+
+The `Search Employees` API supports the following fields for dynamic searches and result extraction:
+
+### General Fields
+- `current_company_ids`: List of current companies to filter employees (e.g., `[162479]` for Apple).
+- `current_company_ids_exclude`: List of companies to exclude.
+- `past_company_ids`: List of past companies to filter employees.
+- `past_company_ids_exclude`: List of past companies to exclude.
+- `company_headcounts`: Company size (e.g., `["1-10", "11-50"]`).
+- `company_type`: Type of company (e.g., `"Public Company"`, `"Privately Held"`).
+- `functions`: Job functions or departments (e.g., `"Engineering"`, `"Marketing"`).
+- `seniority_levels`: Levels of seniority (e.g., `"Director"`, `"CXO"`).
+
+### Profile Information
+- `first_name`: First name of the individual.
+- `last_name`: Last name of the individual.
+- `title_keywords`: Keywords in job titles (e.g., `"Manager"`).
+- `title_keywords_exclude`: Exclude specific job title keywords.
+- `year_in_current_company`: Years in the current company (e.g., `"1 to 2 years"`).
+- `year_in_current_position`: Years in the current position.
+- `profile_languages`: Spoken languages (e.g., `"English"`, `"French"`).
+
+### Location Information
+- `geo_codes`: Geographic codes to include (e.g., `103644278` for the U.S.).
+- `geo_codes_exclude`: Geographic codes to exclude.
+
+### Custom Filters
+- `keywords`: Keywords for filtering profiles.
+- `industry_codes`: Filter by industry (e.g., software development).
+- `school_ids`: Filter by schools attended.
+- `changed_jobs`: Boolean filter for those who recently changed jobs.
+- `posted_on_linkedin`: Boolean filter for those active on LinkedIn.
+- `mentioned_in_news`: Boolean filter for profiles mentioned in news.
+
+---
+
+## Write Search Results to CSV
+
+This step manually extracts these fields from the results and writes them to a CSV file.
+
+### Python Code to Extract and Write Data
+
+```python
+import csv
+import requests
+import time
+
+API_KEY = "YOUR_API_KEY"
+
+# Step 1: Initiate search
+def initiate_search():
+    url = "https://fresh-linkedin-profile-data.p.rapidapi.com/search-employees"
+    payload = {
+        "geo_codes": [103644278],  # e.g., United States
+        "title_keywords": ["Manager", "Director"],
+        "current_company_ids": [162479, 1586],  # Apple and Amazon
+        "functions": ["Engineering", "Marketing"],
+        "limit": 50
+    }
+    headers = {
+        "x-rapidapi-key": API_KEY,
+        "x-rapidapi-host": "fresh-linkedin-profile-data.p.rapidapi.com",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        print("Search initiated successfully.")
+        return data.get("request_id")
+    else:
+        print(f"Error: {response.status_code}, {response.text}")
+        return None
+
+# Step 2: Check search status
+def check_search_status(request_id):
+    url = "https://fresh-linkedin-profile-data.p.rapidapi.com/check-search-status"
+    params = {"request_id": request_id}
+    headers = {
+        "x-rapidapi-key": API_KEY,
+        "x-rapidapi-host": "fresh-linkedin-profile-data.p.rapidapi.com"
+    }
+
+    while True:
+        response = requests.get(url, headers=headers, params=params)
+        if response.status_code == 200:
+            status = response.json().get("status")
+            print(f"Search status: {status}")
+            if status == "done":
+                return True
+        else:
+            print(f"Error: {response.status_code}, {response.text}")
+            return False
+        time.sleep(60)  # Wait 1 minute before checking again
+
+# Step 3: Get search results
+def get_search_results(request_id, page=1):
+    url = "https://fresh-linkedin-profile-data.p.rapidapi.com/get-search-results"
+    params = {"request_id": request_id, "page": str(page)}
+    headers = {
+        "x-rapidapi-key": API_KEY,
+        "x-rapidapi-host": "fresh-linkedin-profile-data.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers, params=params)
+    if response.status_code == 200:
+        return response.json().get("results", [])
+    else:
+        print(f"Error: {response.status_code}, {response.text}")
+        return []
+
+# Step 4: Write results to CSV
+def write_results_to_csv(results, filename="search_results.csv"):
+    # Define the fields explicitly based on the API documentation
+    fieldnames = [
+        "first_name", "last_name", "title", "location", "current_company", 
+        "profile_languages", "geo_codes", "keywords", "industry_codes", 
+        "functions", "seniority_levels", "company_headcounts", "company_type"
+    ]
+
+    with open(filename, mode="w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        # Write rows
+        for profile in results:
+            writer.writerow({field: profile.get(field, "N/A") for field in fieldnames})
+
+    print(f"Results written to {filename}.")
+
+# Main execution
+def main():
+    request_id = initiate_search()
+    if not request_id:
+        raise Exception("Failed to initiate search.")
+
+    if not check_search_status(request_id):
+        raise Exception("Search did not complete successfully.")
+
+    results = []
+    page = 1
+    while True:
+        page_results = get_search_results(request_id, page)
+        if not page_results:
+            break
+        results.extend(page_results)
+        page += 1
+
+    print(f"Retrieved {len(results)} profiles.")
+    write_results_to_csv(results)
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+## Output
+
+The output CSV file (`search_results.csv`) will contain the following columns:
+- **First Name**: Individual's first name.
+- **Last Name**: Individual's last name.
+- **Title**: Current job title.
+- **Location**: Geographic location.
+- **Current Company**: Name of the company the individual works for.
+- **Profile Languages**: Languages spoken by the individual.
+- **Geo Codes**: Geographic codes of the individual's location.
+- **Keywords**: Keywords that match the individual's profile.
+- **Industry Codes**: Industry classification of the individual.
+- **Functions**: Job function or department.
+- **Seniority Levels**: Seniority level of the individual's position.
+- **Company Headcounts**: Company size in terms of employees.
+- **Company Type**: The type of the company.
+
+---
+
+## Benefits of Using Our API
+
+1. **Dynamic Data Handling**: Automatically captures all available fields, ensuring you never miss a detail.
+2. **Ease of Use**: Straightforward integration and dynamic field extraction simplify data handling.
+3. **Privacy and Security**: No LinkedIn account required, eliminating risks of manual errors or account bans.
+
+---
+
+## Get Started Today
+
+Effortlessly streamline your LinkedIn Sales Navigator searches with our API. Whether you're hiring, marketing, or conducting business research, our solution scales to meet your needs—saving you time, ensuring accuracy, and protecting your privacy. Try it today and unlock the power of automated LinkedIn data!

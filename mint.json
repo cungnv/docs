@@ -37,8 +37,8 @@
       "pages": [
         "tutorials/search-employees-using-sales-navigator",
         "tutorials/search-companies-using-sales-navigator",
-        "enrich-a-lead-list-with-linkedin-data",
-        "fetch-all-posts-of-a-person-profile"
+        "tutorials/enrich-a-lead-list-with-linkedin-data",
+        "tutorials/enrich-companies-with-linkedin-data"
       ]
     },
     {
