@@ -20,6 +20,13 @@
     "name": "Try it now",
     "url": "https://rapidapi.com/freshdata-freshdata-default/api/fresh-linkedin-profile-data"
   },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@fdocs.info"
+    }
+  ]
+
   "tabs": [
     {
       "name": "API Reference",
@@ -28,12 +35,12 @@
   ],
   
   "primaryTab": {
-    "name": "Tutorials"
+    "name": "Home"
   },
 
   "navigation": [
     {
-      "group": "Popular Use Cases",
+      "group": "Featured Posts",
       "pages": [
         "tutorials/search-employees-using-sales-navigator",
         "tutorials/search-companies-using-sales-navigator",
