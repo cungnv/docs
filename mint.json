@@ -43,8 +43,8 @@
       "group": "Overview",
       "pages": [
         "introduction",
-        "quickstart",
-        "development"
+        "quickstart"
+        
       ]
     },
     {
