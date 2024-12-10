@@ -40,6 +40,14 @@
 
   "navigation": [
     {
+      "group": "Overview",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "development"
+      ]
+    },
+    {
       "group": "Featured Posts",
       "pages": [
         "tutorials/search-employees-using-sales-navigator",
